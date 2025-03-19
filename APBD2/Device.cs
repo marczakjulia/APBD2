@@ -4,30 +4,30 @@ namespace APBD2
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool IsTurnedOn { get; private set; }
+        public bool On { get; set; }
 
         public Device(int id, string name)
         {
             Id = id;
             Name = name;
-            IsTurnedOn = false;
+            On = false;
         }
 
         public virtual void TurnOn()
         {
-            IsTurnedOn = true;
+            On = true;
             Console.WriteLine($"{Name} is now ON.");
         }
 
         public void TurnOff()
         {
-            IsTurnedOn = false;
+            On = false;
             Console.WriteLine($"{Name} is now OFF.");
         }
 
         public override string ToString()
         {
-            return $"Device [ID: {Id}, Name: {Name}, IsTurnedOn: {IsTurnedOn}]";
+            return $"Device [ID: {Id}, Name: {Name}, Is Turned On: {On}]";
         }
     }
 }
