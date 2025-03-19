@@ -1,5 +1,4 @@
 namespace APBD2;
-
 public class SmartWatches: Device, IPowerNotifier
 {
     private int _battery;
@@ -18,7 +17,6 @@ public class SmartWatches: Device, IPowerNotifier
             ;
         }
     }
-
     public SmartWatches(int id, string name, int battery) : base(id, name)
     {
         _battery = battery;
@@ -26,6 +24,19 @@ public class SmartWatches: Device, IPowerNotifier
 
     public void LowPower()
     {
-        throw new NotImplementedException();
+    Console.WriteLine("Low Power, you need to charge your battery");
     }
+
+    public override void TurnOn()
+    {
+        if (_battery < 11)
+            throw new EmptyBatteryException("Battery is too low");
+        base.TurnOn();
+        _battery -= 10;
+    }
+}
+
+public class EmptyBatteryException : Exception
+{
+    public EmptyBatteryException(string message) : base(message) { }
 }
