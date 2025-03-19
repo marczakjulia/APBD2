@@ -16,13 +16,13 @@ namespace APBD2
         public virtual void TurnOn()
         {
             On = true;
-            Console.WriteLine($"{Name} is now ON.");
+            Console.WriteLine($"{Name} is ON.");
         }
 
         public void TurnOff()
         {
             On = false;
-            Console.WriteLine($"{Name} is now OFF.");
+            Console.WriteLine($"{Name} is OFF.");
         }
 
         public override string ToString()
