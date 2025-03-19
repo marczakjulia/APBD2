@@ -14,28 +14,25 @@ public class SmartWatches: Device, IPowerNotifier
             {
                 LowPower();
             }
-            ;
         }
     }
-    public SmartWatches(int id, string name, int battery) : base(id, name)
+    public SmartWatches(int id, string name,  int battery) : base(id, name)
     {
         _battery = battery;
     }
-
     public void LowPower()
     {
     Console.WriteLine("Low Power, you need to charge your battery");
     }
-
     public override void TurnOn()
     {
+        On = true;
         if (_battery < 11)
             throw new EmptyBatteryException("Battery is too low");
         base.TurnOn();
         _battery -= 10;
     }
 }
-
 public class EmptyBatteryException : Exception
 {
     public EmptyBatteryException(string message) : base(message) { }
