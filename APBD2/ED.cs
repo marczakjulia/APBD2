@@ -1,36 +1,54 @@
 using System;
-using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 
 namespace APBD2
 {
     public class ED : Device
     {
-        private string _IP;
+        private string _ip = string.Empty;
+        private string _network = string.Empty;
 
-        private string _network;
+        // took from the internet, unsure how to properlly format the regrex for it 
+        private static readonly Regex _regex = new Regex(
+            @"^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$",
+            RegexOptions.Compiled);
 
-        // addmiting I took this from the internet cause i was unsure how to format IP address correctly 
-        private Regex _regex = new Regex(
-            @"^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$");
+        public string IP
+        {
+            get => _ip;
+            set
+            {
+                if (!_regex.IsMatch(value))
+                    throw new ArgumentException($"Invalid IP address format: {value}");
+                
+                _ip = value;
+            }
+        }
+
+        public string Network
+        {
+            get => _network;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Network name cannot be empty.");
+                
+                _network = value;
+            }
+        }
 
         public ED(int id, string name, string ip, string network) : base(id, name)
         {
-            if (_regex.IsMatch(ip))
-            {
-                throw new ArgumentException("Invalid IP address format");
-            }
-
-            _IP = ip;
-            _network = network;
+            IP = ip;         // Uses the property setter for validation
+            Network = network;
         }
 
         public void Connect()
         {
-            if (!_network.Contains("MD Ltd."))
+            if (!Network.Contains("MD Ltd."))
                 throw new ConnectionException($"{Name} cannot connect. Invalid network name!");
 
-            Console.WriteLine($"Connected to {_network}.");
+            Console.WriteLine($"{Name} successfully connected to {Network}.");
         }
 
         public override void TurnOn()
@@ -38,9 +56,15 @@ namespace APBD2
             Connect();
             base.TurnOn();
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + $", IP: {IP}, Network: {Network}";
+        }
     }
-}
-public class ConnectionException : Exception
-{
-    public ConnectionException(string message) : base(message) { }
+
+    public class ConnectionException : Exception
+    {
+        public ConnectionException(string message) : base(message) { }
+    }
 }
