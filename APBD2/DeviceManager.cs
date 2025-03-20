@@ -7,7 +7,7 @@ namespace APBD2
 {
     public class DeviceManager
     {
-        private List<Device> _devices = new List<Device>();
+        public List<Device> _devices = new List<Device>();
         private string _filePath;
         public string _outputPath = "/Users/juliamarczak/RiderProjects/APBD2/APBD2/output.txt";
         private int _maxStorage = 15;
